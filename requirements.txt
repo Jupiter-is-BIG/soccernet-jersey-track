@@ -1,2 +1,6 @@
 SoccerNet
-
+ultralytics
+nltk
+lmdb
+pytorch_lightning
+timm

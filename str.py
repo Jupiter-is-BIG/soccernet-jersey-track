@@ -124,7 +124,9 @@ def temperature_scale(logits, t):
     return new_logits
 
 ## RUNCPU
-temperature = nn.Parameter(torch.ones(1).cuda() * 1.5)
+temperature = nn.Parameter(torch.ones(1) * 1.5)
+if torch.cuda.is_available():
+    temperature = nn.Parameter(torch.ones(1).cuda() * 1.5)
 def set_temperature(model, data_root, img_size):
     """
     Tune the tempearature of the model (using the validation set).
@@ -132,7 +134,8 @@ def set_temperature(model, data_root, img_size):
     valid_loader (DataLoader): validation set loader
     """
     ## RUNCPU
-    model.cuda()
+    if torch.cuda.is_available():
+        model.cuda()
     ece_criterion = _ECELoss(model).cuda()
 
     # First: collect all the logits and labels for the validation set
@@ -158,7 +161,9 @@ def set_temperature(model, data_root, img_size):
             logits_list.append(l)
             labels_list.append(data[filename])
         ## RUNCPU
-        logits = torch.cat(logits_list).cuda()
+        logits = toch.cat(logits_list)
+        if torch.cuda.is_available():
+            logits = torch.cat(logits_list).cuda()
         labels = labels_list
 
     # Calculate ECE before temperature scaling
@@ -249,7 +254,7 @@ def main():
     parser.add_argument('--custom', action='store_true', default=True, help='Evaluate on custom personal datasets')
     parser.add_argument('--rotation', type=int, default=0, help='Angle of rotation (counter clockwise) in degrees.')
     ## RUNCPU
-    parser.add_argument('--device', default='cuda')
+    parser.add_argument('--device', default='cpu')
     parser.add_argument('--inference', action='store_true', default=False, help='Run inference and store prediction results')
     parser.add_argument('--tune_temperature', action='store_true', default=False,
                         help='Find best t-scale')

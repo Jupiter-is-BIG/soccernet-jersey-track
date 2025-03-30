@@ -1,0 +1,7 @@
+.venv/*
+train/*
+__pycache__/*
+out/*
+models/*
+
+yolo11s-pose.pt

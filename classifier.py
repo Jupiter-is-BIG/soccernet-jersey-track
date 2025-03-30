@@ -26,7 +26,9 @@ class BinaryClassifier(nn.Module):
             nn.Flatten(),
             nn.Linear(128 * 8 * 8, 256),
             nn.ReLU(),
-            nn.Linear(256, 1),  
+            nn.Linear(256, 64),  
+            nn.ReLU(),
+            nn.Linear(64, 1),
             nn.Sigmoid()
         )
     

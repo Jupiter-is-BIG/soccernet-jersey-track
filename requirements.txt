@@ -4,3 +4,7 @@ nltk
 lmdb
 pytorch_lightning
 timm
+torch
+easyocr
+pandas
+tqdm

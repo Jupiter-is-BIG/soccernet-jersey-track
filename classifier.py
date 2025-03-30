@@ -1,7 +1,6 @@
 import os
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
 from torchvision import transforms
 from PIL import Image
 
@@ -48,9 +47,8 @@ def filter_crops(dir_path, weight_path, out_dir):
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
     
-    # To convert tensor back to a PIL image (denormalizing)
     to_pil = transforms.Compose([
-        transforms.Normalize(mean=[-1, -1, -1], std=[2, 2, 2]),  # Reverse normalization
+        transforms.Normalize(mean=[-1, -1, -1], std=[2, 2, 2]),
         transforms.ToPILImage()
     ])
 
@@ -67,12 +65,11 @@ def filter_crops(dir_path, weight_path, out_dir):
                     with Image.open(file_path) as img:
                         if img.width < 15 or img.height < 15:
                             continue
-                        img_transformed = transform(img).unsqueeze(0)  # Add batch dimension
+                        img_transformed = transform(img).unsqueeze(0)
                         with torch.no_grad():
                             output = model(img_transformed)
                             prediction = output.item()
                         
                         if prediction > 0.5:
-                            # Convert back to PIL image before saving
-                            img_resized = to_pil(img_transformed.squeeze(0))  # Remove batch dim
+                            img_resized = to_pil(img_transformed.squeeze(0))
                             img_resized.save(os.path.join(out_subdir, filename))

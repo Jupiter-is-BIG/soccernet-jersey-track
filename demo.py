@@ -69,20 +69,24 @@ while True:
                 x_min, y_min = max(x_min, 0), max(y_min, 0)
                 x_max, y_max = min(x_max, frame.shape[1]), min(y_max, frame.shape[0])
 
-                if x_max - x_min > 0.05 * frame.shape[1] and y_max - y_min > 0.1 * frame.shape[0]:
+                if x_max - x_min > 0.05 * frame.shape[1] and x_max - x_min < 0.65 * frame.shape[1] and y_max - y_min > 0.1 * frame.shape[0]:
                     cropped_tshirt = frame[y_min:y_max, x_min:x_max]
                     crop_path = os.path.join(output_dir, f"crop.jpg")
                     cv2.imwrite(crop_path, cropped_tshirt)
                     frame_count += 1
                     crop_detected = True
 
-                for x, y in keypoints:
-                    cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 0), -1)
-    
-    INFO = f"Detected: {DETECTED_NUM} Confidence: {CONFIDENCE}"
+                cv2.circle(frame, (int(left_shoulder[0]), int(left_shoulder[1])), 5, (0, 255, 0), -1)
+                cv2.circle(frame, (int(right_shoulder[0]), int(right_shoulder[1])), 5, (0, 255, 0), -1)
+                cv2.circle(frame, (int(left_hip[0]), int(left_hip[1])), 5, (0, 255, 0), -1)
+                cv2.circle(frame, (int(right_hip[0]), int(right_hip[1])), 5, (0, 255, 0), -1)
+
+                if crop_detected:
+                    cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 255), 2)
+                
+    INFO = f"Detected: {DETECTED_NUM} Confidence: {CONFIDENCE:.2f}"
     COLOR = (255, 0, 0) if legible else (0, 0, 255)
-    cv2.putText(frame, f"Detected: {DETECTED_NUM} Confidence: {CONFIDENCE}", (50, 50), 
-    cv2.FONT_HERSHEY_SIMPLEX, 1, COLOR, 2, cv2.LINE_AA)
+    cv2.putText(frame, INFO, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, COLOR, 2, cv2.LINE_AA)
 
     cv2.imshow("Pose Detection", frame)
 
@@ -92,10 +96,7 @@ while True:
     if not crop_detected:
         continue
 
-    crop_detected = False
-
     legible = False
-
     # CALL CLASSIFIER MODEL TO CHECK IF CROP_PATH IMAGE IS GOOD OR BAD
     with Image.open(crop_path) as img:
         if img.width < 15 or img.height < 15:
@@ -124,7 +125,6 @@ while True:
     else:
         DETECTED_NUM = -1
         CONFIDENCE = -1
-        
 
 cap.release()
 cv2.destroyAllWindows()

@@ -53,10 +53,17 @@ We compare our model against the Baseline [A General Framework for Jersey Number
 
 The above is based on running the models on 2 T4 GPUs on Test set of SoccerNet.
 
+For our classifier model, we created a new image-level dataset from EasyOCR and ResNet34 trained on Hockey dataset and did a 10-90 (10% Train and 90% Test) split on the dataset. We got the following accuracy
 
-### EvalAI Submission
+### Table 3: Legiblity Classifier
+| Train                     | Test |
+|----------------------------|--------------|
+| 99.03 % | 98.31 %      |
+
+
 Our Model performs at $72.79~\%$ on the Challenge Dataset as can be seen on our EvalAI submission below
 
+### Table 4: EvalAI Submission
 | Team Name    | Method Name | Status   | Execution Time (sec.) | Submitted File | Result File | Stdout File | Stderr File | Submitted At |
 |-------------|------------|----------|----------------------|----------------|-------------|-------------|-------------|--------------------------|
 | UBC 419 T2  | UBC Team 2 | finished | 0.169408             | [Link](https://evalai.s3.amazonaws.com/media/submission_files/submission_502585/bcad9e8f-9baa-4b73-81c0-64a5aa60d0ab.json) | [Link](https://evalai.s3.amazonaws.com/media/submission_files/submission_502585/bcd13e13-a8db-4565-ba77-876ff78d7c2a.json) | [Link](https://evalai.s3.amazonaws.com/media/submission_files/submission_502585/b17a55ad-8d6e-435e-80ba-84f2af518f6c.txt) |  | 2025-03-29 22:52:42.173476+00:00 |

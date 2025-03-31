@@ -21,20 +21,20 @@ SAMPLE_RESULT = "out/final.json"
 MODEL = "models/parseq_epoch=24-step=2575-val_accuracy=95.6044-val_NED=96.3255.ckpt"
 M2 = "models/updated_checkpoint.pth"
 
-# print("Processing Stage 1 : Pose Detection")
-# process_all_dirs(INTPUT_DIR, OUTPUT_DIR_CROP, model)
+print("Processing Stage 1 : Pose Detection")
+process_all_dirs(INTPUT_DIR, OUTPUT_DIR_CROP, model)
 
-# print("Processing Stage 2 : Classifier")
-# filter_crops(OUTPUT_DIR_CROP, CLASSIFIER_PATH, OUTPUT_DIR_CLASSIFER)
+print("Processing Stage 2 : Classifier")
+filter_crops(OUTPUT_DIR_CROP, CLASSIFIER_PATH, OUTPUT_DIR_CLASSIFER)
 
-# print("Processing Stage 3 : Moving to imgs")
-# os.makedirs(DEST_DIR, exist_ok=True)
-# for root, dirs, files in os.walk(OUTPUT_DIR_CROP):
-#     for file in files:
-#         if file.lower().endswith('.jpg'):
-#             file_path = os.path.join(root, file)
-#             shutil.move(file_path, os.path.join(DEST_DIR, file))
-# print("Files moved successfully.")
+print("Processing Stage 3 : Moving to imgs")
+os.makedirs(DEST_DIR, exist_ok=True)
+for root, dirs, files in os.walk(OUTPUT_DIR_CROP):
+    for file in files:
+        if file.lower().endswith('.jpg'):
+            file_path = os.path.join(root, file)
+            shutil.move(file_path, os.path.join(DEST_DIR, file))
+print("Files moved successfully.")
 
 print("Processing Stage 4 : Running STR")
 command = f"python3 str.py  {MODEL}\
@@ -42,17 +42,17 @@ command = f"python3 str.py  {MODEL}\
 os.system(command)
 print("Done running STR model")
 
-# print("Processing Step 5 : Sampling best inference from predictions")
-# results_dict, analysis_results = process_jersey_id_predictions(RESULT, useBias=True)
-# for i in range(NUMBER_OF_TRACKLETS):
-#     if str(i) not in results_dict:
-#         results_dict[str(i)] = -1
-#     else:
-#         results_dict[str(i)] = int(results_dict[str(i)])
-# with open(SAMPLE_RESULT, "w") as file:
-#     json.dump(
-#         {str(k): results_dict[str(k)] for k in sorted(map(int, results_dict.keys()))},
-#         file, 
-#         indent=4
-#     )
-# print("Done predict numbers")
+print("Processing Step 5 : Sampling best inference from predictions")
+results_dict, analysis_results = process_jersey_id_predictions(RESULT, useBias=True)
+for i in range(NUMBER_OF_TRACKLETS):
+    if str(i) not in results_dict:
+        results_dict[str(i)] = -1
+    else:
+        results_dict[str(i)] = int(results_dict[str(i)])
+with open(SAMPLE_RESULT, "w") as file:
+    json.dump(
+        {str(k): results_dict[str(k)] for k in sorted(map(int, results_dict.keys()))},
+        file, 
+        indent=4
+    )
+print("Done predict numbers")

@@ -3,7 +3,8 @@ This project works on tackling SoccerNet Jersey Number Recognition Task using De
 
 We improve the Baseline Model's inference time by first performing pose detection and then using semi supervised learning using EasyOCR to train a light weight classfier model.
 
-![Model Architecture](model.png)
+![Model Architecture Updated](https://github.com/user-attachments/assets/0e6f11c9-5a77-487b-a9bf-cedcc01baebc)
+
 
 ## Inference Setup
 Create a new virtual env using

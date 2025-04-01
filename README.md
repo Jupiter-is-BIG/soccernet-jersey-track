@@ -1,4 +1,4 @@
-# SoccerNet Challeneg: Jersey Number Recognition
+# SoccerNet Challenge: Jersey Number Recognition
 This project works on tackling SoccerNet Jersey Number Recognition Task using Deep Learning techniques. We aim to make a football jersey number recognition system that can automatically detect and identify the number on the athlete's jersey. If the number is not detected, it will output $-1$; if the number is detected, it will output the corresponding number.
 
 We improve the Baseline Model's inference time by first performing pose detection and then using semi supervised learning using EasyOCR to train a light weight classfier model.
@@ -27,7 +27,7 @@ python inference.py
 ### Downloading Dataset
 You can download `SoccerNet` dataset using the `download_data.py` script. To download the dataset used for training the classifier model, refer to the [Google Drive](https://drive.google.com/drive/folders/1qW14QyPeIMMp3Z5wLWgTD9ijMFaUEfIn?usp=sharing) link and use `soccernet-image-legibility-classifier-training.ipynb` for training the classifier model.
 
-### Pretrained Weights
+### Pre trained Weights
 Classifier weights can be downloaded from [Google Drive](https://drive.google.com/drive/folders/1qW14QyPeIMMp3Z5wLWgTD9ijMFaUEfIn?usp=sharing). Place these under `models/` directory.
 
 ### Live Demo
